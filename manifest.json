@@ -1,0 +1,9 @@
+{
+  "id": "mermaid-lightbox",
+  "name": "Mermaid Lightbox",
+  "version": "1.0.0",
+  "minAppVersion": "1.0.0",
+  "description": "Fit Mermaid diagrams to the note width and open them in a lightbox in reading view.",
+  "author": "sen",
+  "isDesktopOnly": false
+}

@@ -1,0 +1,94 @@
+/* Mermaid 図をノート幅に収め、横スクロールを発生させない */
+.mermaid svg {
+  max-width: 100%;
+  height: auto;
+}
+
+/* リーディングビューでのみクリック拡大できることを示す */
+.markdown-reading-view .mermaid {
+  cursor: zoom-in;
+}
+
+/*
+ * 拡大表示は Obsidian 標準の画像ライトボックス（.lightbox 系クラス）の見た目をそのまま使う。
+ *
+ * 以下の :where() で囲んだルールは、ライトボックスの CSS が存在しない古い Obsidian や、
+ * 将来クラス名が変わった場合のためのフォールバック。詳細度が 0 なので、
+ * Obsidian 本体やテーマのスタイルがあればそちらが優先される。
+ */
+:where(.mermaid-lightbox) {
+  position: fixed;
+  inset: 0;
+  z-index: var(--layer-modal, 50);
+}
+
+:where(.mermaid-lightbox) :where(.lightbox-bg) {
+  position: absolute;
+  inset: 0;
+  background-color: var(--lightbox-background, black);
+}
+
+:where(.mermaid-lightbox) :where(.lightbox-content) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+
+:where(.mermaid-lightbox) :where(.lightbox-media) {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 0;
+  position: relative;
+}
+
+:where(.mermaid-lightbox) :where(.media-wrapper) {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+:where(.mermaid-lightbox) :where(.lightbox-titlebar) {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  min-height: 40px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.4), transparent);
+}
+
+:where(.mermaid-lightbox) :where(.modal-close-button) {
+  position: absolute;
+  top: 6px;
+  inset-inline-end: 12px;
+  z-index: 1;
+  color: white;
+}
+
+/* ここから下は Mermaid 図用の追加分 */
+
+/* 背景が黒いので、図はノートと同じ背景色のカードに載せて表示する */
+.mermaid-lightbox .mermaid-lightbox-surface {
+  padding: var(--size-4-4, 16px);
+  background-color: var(--background-primary, white);
+  border-radius: var(--radius-m, 8px);
+  will-change: transform;
+  user-select: none;
+  touch-action: none;
+}
+
+.mermaid-lightbox .mermaid-lightbox-surface > svg {
+  display: block;
+  max-width: none;
+  max-height: none;
+}
+
+.mermaid-lightbox.is-zoomed .mermaid-lightbox-surface {
+  cursor: grab;
+}
